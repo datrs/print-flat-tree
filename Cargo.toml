@@ -1,0 +1,9 @@
+[package]
+name = "print-flat-tree"
+version = "1.0.0"
+authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
+
+[dependencies]
+quicli = "0.1.4"
+structopt = "0.1.7"
+structopt-derive = "0.1.6"
