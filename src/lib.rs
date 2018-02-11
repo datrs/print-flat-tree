@@ -28,7 +28,13 @@
 //!
 //! As can be seen from the above diagram `7` is the parent of `3`, and `3` is
 //! the parent of `1` etc.
+//!
+//! ## See Also
+//! - [mafintosh/print-flat-tree (JavaScript)](https://github.com/mafintosh/print-flat-tree)
+//! - [flat-tree](https://docs.rs/flat-tree)
+
 extern crate flat_tree;
+#[macro_use]
 extern crate structopt;
 
 use std::cmp;
@@ -37,9 +43,6 @@ const DOWN: char = '│';
 const LEFT: char = '─';
 const TURN_DOWN: char = '┐';
 const TURN_UP: char = '┘';
-
-#[macro_use]
-extern crate structopt_derive;
 
 /// Arguments that are passed.
 #[derive(Debug, StructOpt)]
@@ -75,7 +78,13 @@ pub fn print(opts: &Opts) {
     matrix.push(row)
   }
 
+  for i in 0..list.len() {
+    let depth = flat_tree::depth(i as u64);
+    let children = flat_tree::children(i as u64);
+    // matrix[i as usize][depth as usize] = String::from("sup");
+  }
+
   println!("value {:?}", matrix);
 }
 
-fn add_path(child: i32, parent: i32, parent_depth: i32, dir: i32) {}
+// fn add_path(child: i32, parent: i32, parent_depth: i32, dir: i32) {}

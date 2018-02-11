@@ -1,11 +1,9 @@
 extern crate print_flat_tree as lib;
+extern crate structopt;
 
-#[macro_use]
-extern crate quicli;
+use structopt::StructOpt;
 
-use quicli::prelude::*;
-
-main!({
+fn main() {
   let args = lib::Opts::from_args();
   lib::print(&args);
-});
+}
