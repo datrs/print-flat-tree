@@ -7,3 +7,4 @@ authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 quicli = "0.1.4"
 structopt = "0.1.7"
 structopt-derive = "0.1.6"
+flat-tree = "1.1.0"
