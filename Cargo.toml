@@ -8,5 +8,8 @@ authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 structopt = "0.2.0"
 flat-tree = "1.1.0"
 
+[dev-dependencies]
+clippy = { version = "*" }
+
 [patch.crates-io]
 flat-tree = { path = "../flat-tree-rs" }

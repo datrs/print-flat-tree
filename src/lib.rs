@@ -33,6 +33,10 @@
 //! - [mafintosh/print-flat-tree (JavaScript)](https://github.com/mafintosh/print-flat-tree)
 //! - [flat-tree](https://docs.rs/flat-tree)
 
+#![deny(warnings)]
+#![cfg_attr(test, feature(plugin))]
+#![cfg_attr(test, plugin(clippy))]
+
 extern crate flat_tree;
 #[macro_use]
 extern crate structopt;
@@ -48,6 +52,7 @@ const LEFT_TOP_CHAR: char = '┘';
 #[derive(Debug, StructOpt)]
 #[structopt(about = "Converts a flat-tree to a string")]
 pub struct Options {
+  /// Toggle verbose mode.
   #[structopt(short = "v", long = "verbose", help = "Toggle verbose logging")]
   pub verbose: bool,
   /// Nodes that are part of the flat-tree.
@@ -55,14 +60,13 @@ pub struct Options {
   pub list: Vec<i32>,
 }
 
-/// Converts a flat_tree to a string.
+/// Converts a `flat_tree` to a string.
 pub fn fmt(opts: &Options) {
   let list = &opts.list;
-  println!("{:?}", list);
   let width = list.len() + 1;
 
   let last_block = list.len() - list.len() % 2;
-  let roots = flat_tree::full_roots(last_block as u64);
+  let _roots = flat_tree::full_roots(last_block as u64);
 
   let max = list.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let blank = format!("{:width$}", ' ', width = width + 1);
@@ -74,9 +78,9 @@ pub fn fmt(opts: &Options) {
     matrix[i as usize][depth as usize] = val;
 
     if let Some(children) = flat_tree::children(i as u64) {
-      add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
+      add_path(list, &mut matrix, children.0, i as u64, depth, 1);
       if (children.1 as usize) < list.len() {
-        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+        add_path(list, &mut matrix, children.1, i as u64, depth, -1);
       }
     }
   }
@@ -85,7 +89,7 @@ pub fn fmt(opts: &Options) {
 }
 
 fn add_path(
-  list: &Vec<i32>,
+  list: &[i32],
   matrix: &mut Vec<Vec<String>>,
   child: u64,
   parent: u64,
@@ -97,7 +101,6 @@ fn add_path(
     let ptr = depth + 1;
 
     for i in ptr..parent_depth {
-      println!("child {:?}", child);
       matrix[child as usize][i as usize] = pad(HORI_CHAR, HORI_CHAR);
     }
     let turn_char = if direction < 0 {
@@ -119,7 +122,6 @@ fn add_path(
   }
 }
 
-#[inline(always)]
 fn pad(str: char, pad_char: char) -> String {
   format!("{:width$}{}", pad_char, str, width = 5)
 }
