@@ -56,8 +56,8 @@ print-flat-tree 0 1 2 3 5 6 7 10 11
 
 [1]: https://img.shields.io/crates/v/print-flat-tree.svg?style=flat-square
 [2]: https://crates.io/crate/print-flat-tree
-[3]: https://img.shields.io/travis/yoshuawuyts/print-flat-tree.svg?style=flat-square
-[4]: https://travis-ci.org/choojs/yoshuawuyts/print-flat-tree
+[3]: https://img.shields.io/travis/datrs/print-flat-tree.svg?style=flat-square
+[4]: https://travis-ci.org/datrs/print-flat-tree
 [5]: https://img.shields.io/crates/d/print-flat-tree.svg?style=flat-square
 [6]: https://crates.io/crate/print-flat-tree
 [7]: https://docs.rs/print-flat-tree/badge.svg?version=0.1.0
