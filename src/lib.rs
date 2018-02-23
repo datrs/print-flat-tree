@@ -4,10 +4,10 @@
 //! ```rust,ignore
 //! extern crate print_flat_tree;
 //!
-//! use print_flat_tree::print;
+//! use print_flat_tree::fmt;
 //!
 //! let tree = vec!(0, 1, 2, 3, 7, 8, 9, 10);
-//! println!("{:?}", print(tree));
+//! print!("{}", fmt(tree));
 //! ```
 //!
 //! Which outputs:
@@ -38,8 +38,6 @@
 #![cfg_attr(test, plugin(clippy))]
 
 extern crate flat_tree;
-#[macro_use]
-extern crate structopt;
 
 use std::cmp;
 
@@ -48,22 +46,8 @@ const LEFT: char = '─';
 const TURN_DOWN: char = '┐';
 const TURN_UP: char = '┘';
 
-/// Configuration for the `print` function.
-#[derive(Debug, StructOpt)]
-#[structopt(about = "Converts a flat-tree to a string")]
-pub struct Options {
-  /// Toggle verbose mode.
-  #[structopt(short = "v", long = "verbose", help = "Toggle verbose logging")]
-  pub verbose: bool,
-  /// Nodes that are part of the flat-tree.
-  #[structopt(help = "For example '0 1 2 3 7 8 9 10'")]
-  pub tree: Vec<usize>,
-}
-
 /// Converts a `flat_tree` to a string.
-pub fn fmt(opts: &Options) {
-  let tree = &opts.tree;
-
+pub fn fmt(tree: &Vec<usize>) {
   // Fill a vec with bools, indicating if a value exists or not.
   let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
@@ -71,11 +55,11 @@ pub fn fmt(opts: &Options) {
     list[i] = true;
   }
 
-  let width = list.len() + 1;
+  let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
   let _roots = flat_tree::full_roots(last_block as u64);
 
-  let blank = format!("{:width$}", ' ', width = width + 1);
+  let blank = format!("{:width$}", ' ', width = width);
   let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
 
   for i in 0..list.len() {
@@ -115,30 +99,34 @@ fn add_path(
   }
 
   let depth = flat_tree::depth(child);
+  let width = (list.len().to_string()).len() + 1;
   let ptr = depth + 1;
 
   for i in ptr..parent_depth {
-    matrix[child as usize][i as usize] = pad(LEFT, LEFT);
+    matrix[child as usize][i as usize] = pad(LEFT, LEFT, width);
   }
 
   let turn_char = if direction < 0 { TURN_UP } else { TURN_DOWN };
-  matrix[child as usize][ptr as usize] = pad(turn_char, LEFT);
+  matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
 
   let mut start: i32 = child as i32;
-  // println!(
-  //   "child {}, parent {}, direction {}",
-  //   start, parent, direction
-  // );
   loop {
     start += direction;
-    // println!("start:{:?} dir:{:?} parent:{:?}", start, direction, parent);
     if start == parent as i32 {
       break;
     };
-    matrix[child as usize][ptr as usize] = pad(DOWN, ' ');
+    matrix[child as usize][ptr as usize] = pad(DOWN, ' ', width);
   }
 }
 
-fn pad(str: char, pad_char: char) -> String {
-  format!("{:width$}{}", pad_char, str, width = 5)
+fn pad(str: char, pad_char: char, width: usize) -> String {
+  let mut symbol = String::from("");
+  for i in 0..width {
+    if i == width - 1 {
+      symbol.push(str);
+    } else {
+      symbol.push(pad_char);
+    }
+  }
+  symbol
 }
