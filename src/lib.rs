@@ -78,22 +78,28 @@ pub fn fmt(opts: &Options) {
   let blank = format!("{:width$}", ' ', width = width + 1);
   let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
 
-  println!("length: {:?}", list.len());
   for i in 0..list.len() {
+    if list[i] == false {
+      continue;
+    }
     let depth = flat_tree::depth(i as u64);
     let val = format!("{:width$}", i, width = width + 1);
     matrix[i as usize][depth as usize] = val;
 
     if let Some(children) = flat_tree::children(i as u64) {
-      println!("i: {:?}, children: {:?}, depth: {:?}", i, children, depth);
       add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
-      // if (children.1 as usize) < list.len() {
-      //   add_path(list, &mut matrix, children.1, i as u64, depth, -1);
-      // }
+      if (children.1 as usize) < list.len() {
+        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+      }
     }
   }
 
-  // println!("val: {:?}", matrix);
+  let mut flat_tree_str = String::from("");
+  for arr in matrix {
+    let partial = arr.join("") + "\n";
+    flat_tree_str.push_str(partial.as_str());
+  }
+  print!("{}", flat_tree_str);
 }
 
 fn add_path(
