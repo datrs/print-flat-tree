@@ -73,15 +73,11 @@ pub fn fmt(opts: &Options) {
     let val = format!("{:width$}", i, width = width + 1);
     matrix[i as usize][depth as usize] = val;
 
-    match flat_tree::children(i as u64) {
-      Some(children) => {
-        add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
-
-        if (children.1 as usize) < list.len() {
-          add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
-        }
+    if let Some(children) = flat_tree::children(i as u64) {
+      add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
+      if (children.1 as usize) < list.len() {
+        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
       }
-      None => {}
     }
   }
 
@@ -124,6 +120,6 @@ fn add_path(
 }
 
 #[inline(always)]
-fn pad(str: char, val: char) -> String {
-  format!("{:width$}", str, width = 5)
+fn pad(str: char, pad_char: char) -> String {
+  format!("{:width$}{}", pad_char, str, width = 5)
 }
