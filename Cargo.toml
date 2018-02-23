@@ -3,6 +3,7 @@ name = "print-flat-tree"
 description = "Convert a flat-tree to a string."
 version = "1.0.0"
 authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
+license = "Apache-2.0"
 
 [dependencies]
 structopt = "0.2.0"
