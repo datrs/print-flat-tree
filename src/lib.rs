@@ -63,7 +63,7 @@ const TURN_DOWN: char = '┐';
 const TURN_UP: char = '┘';
 
 /// Converts a `flat_tree` to a string.
-pub fn fmt(tree: &Vec<usize>) -> String {
+pub fn fmt(tree: &[usize]) -> String {
   // Fill a vec with bools, indicating if a value exists or not.
   let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
@@ -79,7 +79,7 @@ pub fn fmt(tree: &Vec<usize>) -> String {
   let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
 
   for i in 0..list.len() {
-    if list[i] == false {
+    if !list[i] {
       continue;
     }
     let depth = flat_tree::depth(i as u64);
@@ -111,7 +111,7 @@ fn add_path(
   parent_depth: u64,
   dir: i32,
 ) -> () {
-  if list[child as usize] == false {
+  if !list[child as usize] {
     return;
   }
 
