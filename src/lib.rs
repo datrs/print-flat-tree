@@ -83,6 +83,7 @@ pub fn fmt(tree: &Vec<usize>) -> String {
     let partial = arr.join("") + "\n";
     flat_tree_str.push_str(partial.as_str());
   }
+
   flat_tree_str
 }
 
@@ -94,7 +95,7 @@ fn add_path(
   parent_depth: u64,
   direction: i32,
 ) -> () {
-  if list.get(child as usize).is_none() {
+  if list[child as usize] == false {
     return;
   }
 
@@ -109,6 +110,7 @@ fn add_path(
   let turn_char = if direction < 0 { TURN_UP } else { TURN_DOWN };
   matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
 
+  // TODO: this code is buggy
   let mut start: i32 = child as i32;
   loop {
     start += direction;
