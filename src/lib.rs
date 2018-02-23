@@ -26,6 +26,22 @@
 //! 10──┘
 //! ```
 //!
+//! ## Command Line
+//! ```txt
+//! print-flat-tree
+//! Converts a flat-tree to a string
+//!
+//! USAGE:
+//!     print-flat-tree [tree]...
+//!
+//! FLAGS:
+//!     -h, --help       Prints help information
+//!     -V, --version    Prints version information
+//!
+//! ARGS:
+//!     <tree>...    For example '0 1 2 3 7 8 9 10'
+//! ```
+//!
 //! As can be seen from the above diagram `7` is the parent of `3`, and `3` is
 //! the parent of `1` etc.
 //!

@@ -10,6 +10,43 @@ Converts a flat-tree to a string. Adapted from
 $ cargo add print-flat-tree
 ```
 
+## Usage
+```txt
+print-flat-tree 
+Converts a flat-tree to a string
+
+USAGE:
+    print-flat-tree [tree]...
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+ARGS:
+    <tree>...    For example '0 1 2 3 7 8 9 10'
+```
+
+### Output
+```txt
+print-flat-tree 0 1 2 3 5 6 7 10 11
+
+  0──┐                                    
+     1──┐                                 
+  2──┘  │                                 
+        3──┐                              
+           │                              
+           │                              
+           │                              
+           7                              
+  8──┐     │                              
+     9──┐  │                              
+ 10──┘  │  │                              
+       11──┘                              
+ 12──┐  │                                 
+    13──┘                                 
+ 14──┘                                    
+````
+
 ## Links
 - [documentation][8]
 - [crate][2]
