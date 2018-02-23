@@ -60,5 +60,5 @@ print-flat-tree 0 1 2 3 5 6 7 10 11
 [4]: https://travis-ci.org/datrs/print-flat-tree
 [5]: https://img.shields.io/crates/d/print-flat-tree.svg?style=flat-square
 [6]: https://crates.io/crate/print-flat-tree
-[7]: https://docs.rs/print-flat-tree/badge.svg?version=0.1.0
-[8]: https://docs.rs/crate/print-flat-tree
+[7]: https://docs.rs/print-flat-tree/badge.svg
+[8]: https://docs.rs/print-flat-tree
