@@ -67,7 +67,7 @@ pub fn fmt(tree: &Vec<usize>) -> String {
       continue;
     }
     let depth = flat_tree::depth(i as u64);
-    let val = format!("{:width$}", i, width = width + 1);
+    let val = format!("{:width$}", i, width = width);
     matrix[i as usize][depth as usize] = val;
 
     if let Some(children) = flat_tree::children(i as u64) {
@@ -93,7 +93,7 @@ fn add_path(
   child: u64,
   parent: u64,
   parent_depth: u64,
-  direction: i32,
+  dir: i32,
 ) -> () {
   if list[child as usize] == false {
     return;
@@ -107,17 +107,16 @@ fn add_path(
     matrix[child as usize][i as usize] = pad(LEFT, LEFT, width);
   }
 
-  let turn_char = if direction < 0 { TURN_UP } else { TURN_DOWN };
+  let turn_char = if dir < 0 { TURN_UP } else { TURN_DOWN };
   matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
 
-  // TODO: this code is buggy
-  let mut start: i32 = child as i32;
+  let mut _child: i32 = child as i32;
   loop {
-    start += direction;
-    if start == parent as i32 {
+    _child += dir;
+    if _child == parent as i32 {
       break;
     };
-    matrix[child as usize][ptr as usize] = pad(DOWN, ' ', width);
+    matrix[_child as usize][ptr as usize] = pad(DOWN, ' ', width);
   }
 }
 
