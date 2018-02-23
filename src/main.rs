@@ -19,5 +19,6 @@ pub struct Options {
 
 fn main() {
   let args = Options::from_args();
-  lib::fmt(&args.tree);
+  let tree_str = lib::fmt(&args.tree);
+  print!("{}", tree_str);
 }

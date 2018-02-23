@@ -47,7 +47,7 @@ const TURN_DOWN: char = '┐';
 const TURN_UP: char = '┘';
 
 /// Converts a `flat_tree` to a string.
-pub fn fmt(tree: &Vec<usize>) {
+pub fn fmt(tree: &Vec<usize>) -> String {
   // Fill a vec with bools, indicating if a value exists or not.
   let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
@@ -83,7 +83,7 @@ pub fn fmt(tree: &Vec<usize>) {
     let partial = arr.join("") + "\n";
     flat_tree_str.push_str(partial.as_str());
   }
-  print!("{}", flat_tree_str);
+  flat_tree_str
 }
 
 fn add_path(
