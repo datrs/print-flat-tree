@@ -2,7 +2,8 @@
 [![crates.io version][1]][2] [![build status][3]][4]
 [![downloads][5]][6] [![docs.rs docs][7]][8]
 
-Converts a flat-tree to a string.
+Converts a flat-tree to a string. Adapted from
+[mafintosh/print-flat-tree](https://github.com/mafintosh/print-flat-tree).
 
 ## Installation
 ```sh
