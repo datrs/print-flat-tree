@@ -10,4 +10,4 @@ structopt = "0.2.0"
 flat-tree = "2.0.0"
 
 [dev-dependencies]
-clippy = { version = "*" }
+clippy = "0.0.186"
