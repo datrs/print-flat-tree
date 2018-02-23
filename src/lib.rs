@@ -75,11 +75,11 @@ pub fn fmt(opts: &Options) {
 
     match flat_tree::children(i as u64) {
       Some(children) => {
-        add_path(&list, &mut matrix, children.0, i as u64, depth, -1);
+        add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
 
-        // if (children.1 < list.length()) {
-        //   add_path(&list, slice, children.1, i as u64, depth, -1);
-        // }
+        if (children.1 as usize) < list.len() {
+          add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+        }
       }
       None => {}
     }
@@ -115,7 +115,7 @@ fn add_path(
     loop {
       start += direction;
       println!("start:{:?} dir:{:?} parent:{:?}", start, direction, parent);
-      if (start == parent as i32) {
+      if start == parent as i32 {
         break;
       };
       matrix[child as usize][ptr as usize] = pad(VERT_CHAR, ' ');
