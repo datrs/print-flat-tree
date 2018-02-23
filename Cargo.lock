@@ -35,7 +35,6 @@ dependencies = [
 [[package]]
 name = "flat-tree"
 version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "libc"
@@ -46,7 +45,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "print-flat-tree"
 version = "1.0.0"
 dependencies = [
- "flat-tree 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "flat-tree 1.1.0",
  "structopt 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -170,7 +169,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum atty 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)" = "8352656fd42c30a0c3c89d26dea01e3b77c0ab2af18230835c15e2e13cd51859"
 "checksum bitflags 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b3c30d3802dfb7281680d6285f2ccdaa8c2d8fee41f93805dba5c4cf50dc23cf"
 "checksum clap 2.29.4 (registry+https://github.com/rust-lang/crates.io-index)" = "7b8f59bcebcfe4269b09f71dab0da15b355c75916a8f975d3876ce81561893ee"
-"checksum flat-tree 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8b5659bd0d8654f3799de4a5f8eb7b5cefce6648e59c37516ffa539dd9c54556"
 "checksum libc 0.2.36 (registry+https://github.com/rust-lang/crates.io-index)" = "1e5d97d6708edaa407429faa671b942dc0f2727222fb6b6539bf1db936e4b121"
 "checksum proc-macro2 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "d1cb7aaaa4bf022ec2b14ff2f2ba1643a22f3cee88df014a85e14b392282c61d"
 "checksum quote 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "1eca14c727ad12702eb4b6bfb5a232287dcf8385cb8ca83a3eeaf6519c44c408"

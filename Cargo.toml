@@ -7,3 +7,6 @@ authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 [dependencies]
 structopt = "0.2.0"
 flat-tree = "1.1.0"
+
+[patch.crates-io]
+flat-tree = { path = "../flat-tree-rs" }

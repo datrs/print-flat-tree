@@ -6,5 +6,5 @@ use lib::Options;
 
 fn main() {
   let args = Options::from_args();
-  lib::print(&args);
+  lib::fmt(&args);
 }

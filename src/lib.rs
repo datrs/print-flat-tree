@@ -1,4 +1,4 @@
-//! Converts a [flat tree](http://docs.rs/flat-tree) to a string.
+//! Converts a [`flat tree`](http://docs.rs/flat-tree) to a string.
 //!
 //! ## Usage
 //! ```rust,ignore
@@ -56,24 +56,74 @@ pub struct Options {
 }
 
 /// Converts a flat_tree to a string.
-pub fn print(opts: &Options) {
+pub fn fmt(opts: &Options) {
   let list = &opts.list;
+  println!("{:?}", list);
   let width = list.len() + 1;
 
   let last_block = list.len() - list.len() % 2;
   let roots = flat_tree::full_roots(last_block as u64);
 
   let max = list.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
-  let blank = format!("{:width$}", ' ', width = 5);
-  let matrix = vec![vec![&blank; max as usize]; list.len()];
+  let blank = format!("{:width$}", ' ', width = width + 1);
+  let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
 
   for i in 0..list.len() {
     let depth = flat_tree::depth(i as u64);
-    let children = flat_tree::children(i as u64);
-    // matrix[i as usize][depth as usize] = String::from("sup");
+    let val = format!("{:width$}", i, width = width + 1);
+    matrix[i as usize][depth as usize] = val;
+
+    match flat_tree::children(i as u64) {
+      Some(children) => {
+        add_path(&list, &mut matrix, children.0, i as u64, depth, -1);
+
+        // if (children.1 < list.length()) {
+        //   add_path(&list, slice, children.1, i as u64, depth, -1);
+        // }
+      }
+      None => {}
+    }
   }
 
-  println!("val: {:?}", matrix);
+  // println!("val: {:?}", matrix);
 }
 
-// fn add_path(child: i32, parent: i32, parent_depth: i32, dir: i32) {}
+fn add_path(
+  list: &Vec<i32>,
+  matrix: &mut Vec<Vec<String>>,
+  child: u64,
+  parent: u64,
+  parent_depth: u64,
+  direction: i32,
+) -> () {
+  if list.get(child as usize).is_some() {
+    let depth = flat_tree::depth(child);
+    let ptr = depth + 1;
+
+    for i in ptr..parent_depth {
+      println!("child {:?}", child);
+      matrix[child as usize][i as usize] = pad(HORI_CHAR, HORI_CHAR);
+    }
+    let turn_char = if direction < 0 {
+      LEFT_TOP_CHAR
+    } else {
+      LEFT_BOT_CHAR
+    };
+    matrix[child as usize][ptr as usize] = pad(turn_char, HORI_CHAR);
+
+    let mut start: i32 = child as i32;
+    loop {
+      start += direction;
+      println!("start:{:?} dir:{:?} parent:{:?}", start, direction, parent);
+      if (start == parent as i32) {
+        break;
+      };
+      matrix[child as usize][ptr as usize] = pad(VERT_CHAR, ' ');
+    }
+  }
+}
+
+#[inline(always)]
+fn pad(str: char, val: char) -> String {
+  format!("{:width$}", str, width = 5)
+}
