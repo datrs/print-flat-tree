@@ -67,6 +67,7 @@ pub fn fmt(tree: &[usize]) -> String {
   // Fill a vec with bools, indicating if a value exists or not.
   let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
+  println!("{:?}", list);
   for &i in tree {
     list[i] = true;
   }

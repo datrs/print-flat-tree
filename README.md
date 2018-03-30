@@ -52,7 +52,7 @@ print-flat-tree 0 1 2 3 5 6 7 10 11
 - [crate][2]
 
 ## License
-[Apache-2.0](./LICENSE)
+[MIT](./LICENSE-MIT) OR [Apache-2.0](./LICENSE-APACHE)
 
 [1]: https://img.shields.io/crates/v/print-flat-tree.svg?style=flat-square
 [2]: https://crates.io/crate/print-flat-tree
