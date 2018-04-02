@@ -1,13 +1,16 @@
 [package]
 name = "print-flat-tree"
-description = "Convert a flat-tree to a string."
 version = "1.1.1"
-authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 license = "MIT OR Apache-2.0"
+description = "Convert a flat-tree to a string."
+documentation = "https://docs.rs/print-flat-tree"
+repository = "https://github.com/datrs/print-flat-tree"
+authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
+readme = "README.md"
 
 [dependencies]
 structopt = "0.2.0"
 flat-tree = "2.0.0"
 
 [dev-dependencies]
-clippy = "0.0.186"
+clippy = "0.0"
