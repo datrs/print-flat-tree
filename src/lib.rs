@@ -74,7 +74,7 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
-  let _roots = flat_tree::full_roots(last_block as u64);
+  let _roots = flat_tree::full_roots(last_block as usize);
 
   let blank = format!("{:width$}", ' ', width = width);
   let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
@@ -83,14 +83,14 @@ pub fn fmt(tree: &[usize]) -> String {
     if !list[i] {
       continue;
     }
-    let depth = flat_tree::depth(i as u64);
+    let depth = flat_tree::depth(i as usize);
     let val = format!("{:width$}", i, width = width);
     matrix[i as usize][depth as usize] = val;
 
-    if let Some(children) = flat_tree::children(i as u64) {
-      add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
+    if let Some(children) = flat_tree::children(i as usize) {
+      add_path(&list, &mut matrix, children.0, i as usize, depth, 1);
       if (children.1 as usize) < list.len() {
-        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+        add_path(&list, &mut matrix, children.1, i as usize, depth, -1);
       }
     }
   }
@@ -107,9 +107,9 @@ pub fn fmt(tree: &[usize]) -> String {
 fn add_path(
   list: &[bool],
   matrix: &mut Vec<Vec<String>>,
-  child: u64,
-  parent: u64,
-  parent_depth: u64,
+  child: usize,
+  parent: usize,
+  parent_depth: usize,
   dir: i32,
 ) -> () {
   if !list[child as usize] {
