@@ -74,23 +74,23 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
-  let _roots = flat_tree::full_roots(last_block as usize);
+  let _roots = flat_tree::full_roots(last_block);
 
   let blank = format!("{:width$}", ' ', width = width);
-  let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
+  let mut matrix = vec![vec![blank.to_string(); max]; list.len()];
 
   for i in 0..list.len() {
     if !list[i] {
       continue;
     }
-    let depth = flat_tree::depth(i as usize);
+    let depth = flat_tree::depth(i);
     let val = format!("{:width$}", i, width = width);
-    matrix[i as usize][depth as usize] = val;
+    matrix[i][depth] = val;
 
-    if let Some(children) = flat_tree::children(i as usize) {
-      add_path(&list, &mut matrix, children.0, i as usize, depth, 1);
-      if (children.1 as usize) < list.len() {
-        add_path(&list, &mut matrix, children.1, i as usize, depth, -1);
+    if let Some(children) = flat_tree::children(i) {
+      add_path(&list, &mut matrix, children.0, i, depth, 1);
+      if children.1 < list.len() {
+        add_path(&list, &mut matrix, children.1, i, depth, -1);
       }
     }
   }
@@ -112,7 +112,7 @@ fn add_path(
   parent_depth: usize,
   dir: i32,
 ) -> () {
-  if !list[child as usize] {
+  if !list[child] {
     return;
   }
 
@@ -121,11 +121,11 @@ fn add_path(
   let ptr = depth + 1;
 
   for i in ptr..parent_depth {
-    matrix[child as usize][i as usize] = pad(LEFT, LEFT, width);
+    matrix[child][i] = pad(LEFT, LEFT, width);
   }
 
   let turn_char = if dir < 0 { TURN_UP } else { TURN_DOWN };
-  matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
+  matrix[child][ptr] = pad(turn_char, LEFT, width);
 
   let mut _child: i32 = child as i32;
   loop {
@@ -133,7 +133,7 @@ fn add_path(
     if _child == parent as i32 {
       break;
     };
-    matrix[_child as usize][ptr as usize] = pad(DOWN, ' ', width);
+    matrix[_child as usize][ptr] = pad(DOWN, ' ', width);
   }
 }
 
