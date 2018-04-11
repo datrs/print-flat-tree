@@ -65,7 +65,9 @@ const TURN_UP: char = '┘';
 /// Converts a `flat_tree` to a string.
 pub fn fmt(tree: &[usize]) -> String {
   // Fill a vec with bools, indicating if a value exists or not.
-  let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
+  let max = tree
+    .iter()
+    .fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
   println!("{:?}", list);
   for &i in tree {
@@ -74,23 +76,23 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
-  let _roots = flat_tree::full_roots(last_block as u64);
+  let _roots = flat_tree::full_roots(last_block);
 
   let blank = format!("{:width$}", ' ', width = width);
-  let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
+  let mut matrix = vec![vec![blank.to_string(); max]; list.len()];
 
   for i in 0..list.len() {
     if !list[i] {
       continue;
     }
-    let depth = flat_tree::depth(i as u64);
+    let depth = flat_tree::depth(i);
     let val = format!("{:width$}", i, width = width);
-    matrix[i as usize][depth as usize] = val;
+    matrix[i][depth] = val;
 
-    if let Some(children) = flat_tree::children(i as u64) {
-      add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
-      if (children.1 as usize) < list.len() {
-        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+    if let Some(children) = flat_tree::children(i) {
+      add_path(&list, &mut matrix, children.0, i, depth, 1);
+      if children.1 < list.len() {
+        add_path(&list, &mut matrix, children.1, i, depth, -1);
       }
     }
   }
@@ -107,12 +109,12 @@ pub fn fmt(tree: &[usize]) -> String {
 fn add_path(
   list: &[bool],
   matrix: &mut Vec<Vec<String>>,
-  child: u64,
-  parent: u64,
-  parent_depth: u64,
+  child: usize,
+  parent: usize,
+  parent_depth: usize,
   dir: i32,
 ) -> () {
-  if !list[child as usize] {
+  if !list[child] {
     return;
   }
 
@@ -121,11 +123,15 @@ fn add_path(
   let ptr = depth + 1;
 
   for i in ptr..parent_depth {
-    matrix[child as usize][i as usize] = pad(LEFT, LEFT, width);
+    matrix[child][i] = pad(LEFT, LEFT, width);
   }
 
-  let turn_char = if dir < 0 { TURN_UP } else { TURN_DOWN };
-  matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
+  let turn_char = if dir < 0 {
+    TURN_UP
+  } else {
+    TURN_DOWN
+  };
+  matrix[child][ptr] = pad(turn_char, LEFT, width);
 
   let mut _child: i32 = child as i32;
   loop {
@@ -133,7 +139,7 @@ fn add_path(
     if _child == parent as i32 {
       break;
     };
-    matrix[_child as usize][ptr as usize] = pad(DOWN, ' ', width);
+    matrix[_child as usize][ptr] = pad(DOWN, ' ', width);
   }
 }
 
