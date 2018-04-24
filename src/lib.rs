@@ -76,7 +76,8 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
-  let _roots = flat_tree::full_roots(last_block);
+  let mut _roots = Vec::with_capacity(16);
+  flat_tree::full_roots(last_block, &mut _roots);
 
   let blank = format!("{:width$}", ' ', width = width);
   let mut matrix = vec![vec![blank.to_string(); max]; list.len()];
