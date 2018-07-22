@@ -8,5 +8,6 @@ before_script: |
 script: |
   cargo fmt -- --check &&
   cargo build --verbose &&
-  cargo test  --verbose
+  cargo test  --verbose &&
+  cargo clippy
 cache: cargo
