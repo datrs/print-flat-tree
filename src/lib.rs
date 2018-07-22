@@ -50,8 +50,6 @@
 //! - [flat-tree](https://docs.rs/flat-tree)
 
 #![deny(warnings)]
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(clippy))]
 
 extern crate flat_tree;
 

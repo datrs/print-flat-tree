@@ -1,6 +1,4 @@
 #![deny(warnings)]
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(clippy))]
 
 extern crate print_flat_tree as lib;
 #[macro_use]
