@@ -50,8 +50,6 @@
 //! - [flat-tree](https://docs.rs/flat-tree)
 
 #![deny(warnings)]
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(clippy))]
 
 extern crate flat_tree;
 
@@ -65,9 +63,7 @@ const TURN_UP: char = '┘';
 /// Converts a `flat_tree` to a string.
 pub fn fmt(tree: &[usize]) -> String {
   // Fill a vec with bools, indicating if a value exists or not.
-  let max = tree
-    .iter()
-    .fold(0, |prev, curr| cmp::max(prev, *curr));
+  let max = tree.iter().fold(0, |prev, curr| cmp::max(prev, *curr));
   let mut list = vec![false; max + 1];
   println!("{:?}", list);
   for &i in tree {
@@ -127,11 +123,7 @@ fn add_path(
     matrix[child][i] = pad(LEFT, LEFT, width);
   }
 
-  let turn_char = if dir < 0 {
-    TURN_UP
-  } else {
-    TURN_DOWN
-  };
+  let turn_char = if dir < 0 { TURN_UP } else { TURN_DOWN };
   matrix[child][ptr] = pad(turn_char, LEFT, width);
 
   let mut _child: i32 = child as i32;

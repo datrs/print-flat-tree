@@ -4,9 +4,10 @@ rust:
 
 before_script: |
   rustup component add rustfmt-preview &&
-  cargo install clippy -f
+  rustup component add clippy-preview
 script: |
-  cargo fmt -- --write-mode=diff &&
+  cargo fmt -- --check &&
   cargo build --verbose &&
-  cargo test  --verbose
+  cargo test  --verbose &&
+  cargo clippy -- -D clippy
 cache: cargo
