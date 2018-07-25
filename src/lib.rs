@@ -76,7 +76,7 @@ pub fn fmt(tree: &[usize]) -> String {
   flat_tree::full_roots(last_block, &mut _roots);
 
   let blank = format!("{:width$}", ' ', width = width);
-  let mut matrix = vec![vec![blank.to_string(); max]; list.len()];
+  let mut matrix = vec![vec![blank.to_string(); max + 1]; list.len()];
 
   for i in 0..list.len() {
     if !list[i] {
@@ -96,11 +96,33 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let mut flat_tree_str = String::from("");
   for arr in matrix {
-    let partial = arr.join("") + "\n";
+    let partial = arr.join("").trim_right().to_string() + "\n";
     flat_tree_str.push_str(partial.as_str());
   }
 
   flat_tree_str
+}
+
+
+#[test]
+fn fmt_works_0() {
+  let tree = vec!(0);
+  let result = fmt(&tree);
+  assert_eq!(result, " 0\n");
+}
+
+#[test]
+fn fmt_works_1() {
+  let tree = vec!(1);
+  let result = fmt(&tree);
+  assert_eq!(result, "\n   1\n");
+}
+
+#[test]
+fn fmt_works_0_1_2() {
+  let tree = vec!(0, 1, 2);
+  let result = fmt(&tree);
+  assert_eq!(result, " 0─┐\n   1\n 2─┘\n");
 }
 
 fn add_path(
