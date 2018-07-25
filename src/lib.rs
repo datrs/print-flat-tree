@@ -50,8 +50,6 @@
 //! - [flat-tree](https://docs.rs/flat-tree)
 
 #![deny(warnings)]
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(clippy))]
 
 extern crate flat_tree;
 
@@ -74,45 +72,68 @@ pub fn fmt(tree: &[usize]) -> String {
 
   let width = (list.len().to_string()).len() + 1;
   let last_block = list.len() - list.len() % 2;
-  let _roots = flat_tree::full_roots(last_block as u64);
+  let mut _roots = Vec::with_capacity(16);
+  flat_tree::full_roots(last_block, &mut _roots);
 
   let blank = format!("{:width$}", ' ', width = width);
-  let mut matrix = vec![vec![blank.to_string(); max as usize]; list.len()];
+  let mut matrix = vec![vec![blank.to_string(); max + 1]; list.len()];
 
   for i in 0..list.len() {
     if !list[i] {
       continue;
     }
-    let depth = flat_tree::depth(i as u64);
+    let depth = flat_tree::depth(i);
     let val = format!("{:width$}", i, width = width);
-    matrix[i as usize][depth as usize] = val;
+    matrix[i][depth] = val;
 
-    if let Some(children) = flat_tree::children(i as u64) {
-      add_path(&list, &mut matrix, children.0, i as u64, depth, 1);
-      if (children.1 as usize) < list.len() {
-        add_path(&list, &mut matrix, children.1, i as u64, depth, -1);
+    if let Some(children) = flat_tree::children(i) {
+      add_path(&list, &mut matrix, children.0, i, depth, 1);
+      if children.1 < list.len() {
+        add_path(&list, &mut matrix, children.1, i, depth, -1);
       }
     }
   }
 
   let mut flat_tree_str = String::from("");
   for arr in matrix {
-    let partial = arr.join("") + "\n";
+    let partial = arr.join("").trim_right().to_string() + "\n";
     flat_tree_str.push_str(partial.as_str());
   }
 
   flat_tree_str
 }
 
+
+#[test]
+fn fmt_works_0() {
+  let tree = vec!(0);
+  let result = fmt(&tree);
+  assert_eq!(result, " 0\n");
+}
+
+#[test]
+fn fmt_works_1() {
+  let tree = vec!(1);
+  let result = fmt(&tree);
+  assert_eq!(result, "\n   1\n");
+}
+
+#[test]
+fn fmt_works_0_1_2() {
+  let tree = vec!(0, 1, 2);
+  let result = fmt(&tree);
+  assert_eq!(result, " 0─┐\n   1\n 2─┘\n");
+}
+
 fn add_path(
   list: &[bool],
   matrix: &mut Vec<Vec<String>>,
-  child: u64,
-  parent: u64,
-  parent_depth: u64,
+  child: usize,
+  parent: usize,
+  parent_depth: usize,
   dir: i32,
 ) -> () {
-  if !list[child as usize] {
+  if !list[child] {
     return;
   }
 
@@ -121,11 +142,11 @@ fn add_path(
   let ptr = depth + 1;
 
   for i in ptr..parent_depth {
-    matrix[child as usize][i as usize] = pad(LEFT, LEFT, width);
+    matrix[child][i] = pad(LEFT, LEFT, width);
   }
 
   let turn_char = if dir < 0 { TURN_UP } else { TURN_DOWN };
-  matrix[child as usize][ptr as usize] = pad(turn_char, LEFT, width);
+  matrix[child][ptr] = pad(turn_char, LEFT, width);
 
   let mut _child: i32 = child as i32;
   loop {
@@ -133,7 +154,7 @@ fn add_path(
     if _child == parent as i32 {
       break;
     };
-    matrix[_child as usize][ptr as usize] = pad(DOWN, ' ', width);
+    matrix[_child as usize][ptr] = pad(DOWN, ' ', width);
   }
 }
 
