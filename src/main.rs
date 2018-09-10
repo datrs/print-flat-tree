@@ -1,7 +1,6 @@
 #![deny(warnings)]
 
 extern crate print_flat_tree as lib;
-#[macro_use]
 extern crate structopt;
 
 use structopt::StructOpt;

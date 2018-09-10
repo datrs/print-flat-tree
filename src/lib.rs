@@ -103,24 +103,23 @@ pub fn fmt(tree: &[usize]) -> String {
   flat_tree_str
 }
 
-
 #[test]
 fn fmt_works_0() {
-  let tree = vec!(0);
+  let tree = vec![0];
   let result = fmt(&tree);
   assert_eq!(result, " 0\n");
 }
 
 #[test]
 fn fmt_works_1() {
-  let tree = vec!(1);
+  let tree = vec![1];
   let result = fmt(&tree);
   assert_eq!(result, "\n   1\n");
 }
 
 #[test]
 fn fmt_works_0_1_2() {
-  let tree = vec!(0, 1, 2);
+  let tree = vec![0, 1, 2];
   let result = fmt(&tree);
   assert_eq!(result, " 0─┐\n   1\n 2─┘\n");
 }
