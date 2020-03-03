@@ -10,4 +10,4 @@ readme = "README.md"
 
 [dependencies]
 structopt = "0.2.0"
-flat-tree = "3.3.0"
+flat-tree = "5.0.0"
